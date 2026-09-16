@@ -110,7 +110,7 @@ export function RevealStep() {
           </motion.div>
         </AnimatePresence>
         <AnimatePresence mode="wait">
-          <motion.p key={word} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} className="mt-2 text-lg font-semibold uppercase tracking-widest text-muted">
+          <motion.p key={word} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} className="mt-2 text-lg font-bold uppercase tracking-widest text-snow/90">
             {SCRAMBLE_WORDS[word]}
           </motion.p>
         </AnimatePresence>

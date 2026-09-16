@@ -26,7 +26,7 @@ function Podium({ entry, place, highlight }: { entry?: ScoreEntry; place: 1 | 2 
       {entry ? (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: place * 0.12 }} className="mb-2 text-center">
           {place === 1 && <Crown className="mx-auto mb-1 h-7 w-7 text-yellow" />}
-          <p className={cn('truncate max-w-[10rem] font-black', place === 1 ? 'text-xl md:text-2xl text-yellow' : 'text-base md:text-lg text-snow', highlight && 'underline decoration-yellow decoration-2')}>{entry.name}</p>
+          <p className={cn('max-w-[11rem] md:max-w-[16rem] break-words leading-tight font-black', place === 1 ? 'text-lg md:text-2xl text-yellow' : 'text-sm md:text-lg text-snow', highlight && 'underline decoration-yellow decoration-2')}>{entry.name}</p>
           <p className="text-2xl font-black tabular md:text-3xl">{formatNumber(entry.score)}</p>
           <p className="text-[11px] uppercase tracking-wider text-muted">
             guessed {formatNumber(entry.guess)} · answer {formatNumber(entry.actual)}
