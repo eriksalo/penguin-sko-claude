@@ -70,7 +70,8 @@ export function addScore(entry: Omit<ScoreEntry, 'id' | 'date'>): ScoreEntry {
     id: typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
     date: new Date().toISOString(),
   }
-  writeScores(rankScores([full, ...readScores()]))
+  // Append, then stable-sort: equal score + identical timestamp keeps first-come order.
+  writeScores(rankScores([...readScores(), full]))
   return full
 }
 
