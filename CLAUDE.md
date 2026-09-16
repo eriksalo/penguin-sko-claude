@@ -26,7 +26,8 @@ src/lib/leaderboard.ts           localStorage leaderboard, CSV export
 src/lib/sound.ts                 WebAudio cues (no assets)
 src/context/GameContext.tsx      useReducer state machine: welcome → configure → guess → reveal (+ leaderboard overlay)
 src/components/steps/            One component per screen
-src/components/ui/               Penguin mascot, Button, Slider, AnimatedNumber, BomTable, Snow, Chrome, Brand
+src/components/ui/               Penguin mascot, Button, Slider, AnimatedNumber, BomTable, WhyMixedFleet, Snow, Chrome,
+                                 Brand (Penguin wordmark, VDURA logo, CoBrand lockup, MixedFleetBadge, PoweredBy)
 ```
 
 ## Rules of the road
@@ -37,8 +38,13 @@ src/components/ui/               Penguin mascot, Button, Slider, AnimatedNumber,
   invariant tests (savings > 0 across the slider, monotonic extra GPUs) should always hold.
 - The score is saved to the leaderboard in `lockIn()` (GameContext), not in an effect, so StrictMode
   and re-renders cannot double-save.
-- Brand: Penguin Yellow `#ffcd30`, Penguin Black `#242b2e`, DM Sans. Yellow = Penguin/VDURA, ice blue =
-  competitor. The competitor is never named in the UI ("All-Flash Competitor").
+- Brand: co-branded. Penguin Yellow `#ffcd30` / Penguin Black `#242b2e` for the game chrome (buttons,
+  sliders, scores, big reveal numbers). VDURA Gold `#e79f23` (`text-vdura`) and the official VDURA wordmark
+  (`VduraLogo` / `VduraMark` in `Brand.tsx`, ported from the vdura-ui repo's IconLogoBig/Small) for everything
+  about the product: Mixed Fleet column and BOM, badges, the "why it wins" cards. Ice blue = competitor.
+  DM Sans. The competitor is never named in the UI ("All-Flash Competitor"). The product is "VDURA Mixed
+  Fleet": VELO directors + VPOD flash nodes + JBOD HDD capacity tier, one namespace. Product claims in
+  `WhyMixedFleet.tsx` come from the calculator repo's SCIPAB-messaging.md; derive numbers from `pricing.ts`.
 - Keep it kiosk-friendly: big touch targets, no hover-only affordances, idle reset (3 min) in `App.tsx`.
 - Sound must never autoplay; the AudioContext is created lazily on a user gesture.
 

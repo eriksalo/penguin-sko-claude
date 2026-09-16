@@ -4,7 +4,8 @@ import { useGame } from '../../context/GameContext'
 import { Button } from '../ui/Button'
 import { Slider } from '../ui/Slider'
 import { Penguin } from '../ui/Penguin'
-import { ENHANCED_MODE, GPU_OPTIONS, GPU_RANGE, GPU_SPEC_UNIT } from '../../data/pricing'
+import { MixedFleetBadge } from '../ui/Brand'
+import { ENHANCED_MODE, GPU_OPTIONS, GPU_RANGE, GPU_SPEC_UNIT, VDURA } from '../../data/pricing'
 import { computeRequirements, defaultStorageTB } from '../../lib/calculations'
 import { cn, formatCapacity, formatMoney, formatNumber } from '../../lib/utils'
 
@@ -59,7 +60,7 @@ export function ConfigureStep() {
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-yellow">Step 1 of 2</p>
           <h2 className="mt-1 text-3xl font-black uppercase tracking-tight md:text-5xl">Build your GPU cluster</h2>
-          <p className="mt-2 text-muted md:text-lg">Size the cluster. We'll size the storage two ways and you guess the difference.</p>
+          <p className="mt-2 text-muted md:text-lg">Size the cluster. We'll price its storage two ways, VDURA Mixed Fleet and all-flash, and you guess the gap.</p>
         </div>
         <Penguin mood="thinking" className="hidden h-28 w-24 shrink-0 md:block" />
       </motion.header>
@@ -142,8 +143,12 @@ export function ConfigureStep() {
             step={1000}
             onChange={(v) => { dispatch({ type: 'SET_STORAGE', storageTB: v }); play('tick') }}
             format={formatCapacity}
-            hint={`Default ${formatCapacity(defaultTB)} · 20% flash / 80% HDD on the mixed fleet`}
+            hint={`Default ${formatCapacity(defaultTB)} for ${formatNumber(gpuCount)} GPUs · both vendors sized to this capacity`}
           />
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <MixedFleetBadge detail={`${VDURA.ssdCapacityPercent}% flash / ${100 - VDURA.ssdCapacityPercent}% HDD`} />
+            <p className="text-xs text-muted">VDURA keeps hot data on TLC flash in VPODs and the rest on high-capacity HDDs in JBODs, all in one namespace.</p>
+          </div>
           {storageOverridden && (
             <button type="button" onClick={() => dispatch({ type: 'RESET_STORAGE' })} className="mt-3 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-yellow hover:underline cursor-pointer">
               <RotateCcw className="h-3 w-3" /> Reset to default

@@ -27,12 +27,12 @@ export function verdict(guess: number, actual: number): Verdict {
     return { tier: 'emperor', title: 'PERFECT. EMPEROR PENGUIN.', line: 'Nailed it to the GPU. Somebody get this rep a bigger territory.' }
   }
   if (pct >= 90) return { tier: 'emperor', title: 'EMPEROR-LEVEL GUESS', line: 'Within 10%. You have clearly read the pricing deck.' }
-  if (pct >= 75) return { tier: 'king', title: 'KING PENGUIN', line: 'Close! You know the mixed-fleet math is big.' }
+  if (pct >= 75) return { tier: 'king', title: 'KING PENGUIN', line: 'Close! You know the VDURA Mixed Fleet math is big.' }
   if (pct >= 50) return { tier: 'rockhopper', title: 'ROCKHOPPER', line: 'Right neighborhood, wrong iceberg.' }
   if (pct >= 25) return { tier: 'chilly', title: 'A LITTLE CHILLY', line: 'The savings are bigger than that. Much bigger.' }
   return {
     tier: 'ice',
     title: guess < actual ? 'ICE COLD (WAY LOW)' : 'ICE COLD (WAY HIGH)',
-    line: guess < actual ? 'All-flash is expensive in 2026. Aim higher next time.' : 'Bold. Very bold. Dial it back a bit.',
+    line: guess < actual ? "All-flash is expensive in 2026. VDURA's HDD tier is not. Aim higher next time." : 'Bold. Very bold. Dial it back a bit.',
   }
 }

@@ -4,6 +4,8 @@ import { ArrowLeft, Lock, Minus, Plus } from 'lucide-react'
 import { useGame } from '../../context/GameContext'
 import { Button } from '../ui/Button'
 import { Penguin } from '../ui/Penguin'
+import { VduraLogo } from '../ui/Brand'
+import { VDURA } from '../../data/pricing'
 import { computeRequirements, gpuOption } from '../../lib/calculations'
 import { cn, formatCapacity, formatMoney, formatNumber } from '../../lib/utils'
 
@@ -40,7 +42,7 @@ export function GuessStep() {
           {playerName ? `${playerName}, ` : ''}how many extra <span className="text-yellow">{gpu.name}s</span> does the storage savings buy?
         </h2>
         <p className="mt-3 text-muted md:text-lg">
-          Same cluster, same capacity, same throughput. Penguin + VDURA mixed fleet versus an all-flash competitor.
+          Same cluster, same capacity, same throughput. VDURA Mixed Fleet from Penguin Computing versus an all-flash competitor.
           Every {formatMoney(gpu.price)} saved is one more {gpu.vendor} {gpu.name}.
         </p>
       </motion.header>
@@ -57,6 +59,20 @@ export function GuessStep() {
           </span>
         ))}
       </div>
+
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="mb-6 grid grid-cols-[1fr_auto_1fr] items-stretch gap-2 md:gap-3">
+        <div className="flex flex-col justify-center rounded-2xl border border-vdura/50 bg-vdura/10 px-4 py-3">
+          <VduraLogo className="h-5 md:h-6" />
+          <p className="mt-2 text-[11px] font-bold uppercase tracking-wider text-vdura">
+            Mixed Fleet · {VDURA.ssdCapacityPercent}% TLC flash / {100 - VDURA.ssdCapacityPercent}% HDD
+          </p>
+        </div>
+        <div className="flex items-center text-xl font-black uppercase tracking-widest text-muted md:text-2xl">vs</div>
+        <div className="flex flex-col justify-center rounded-2xl border border-ice/40 bg-ice/10 px-4 py-3 text-right">
+          <p className="text-base font-black uppercase leading-none tracking-wide text-ice md:text-lg">All-Flash Competitor</p>
+          <p className="mt-2 text-[11px] font-bold uppercase tracking-wider text-ice/80">100% QLC flash</p>
+        </div>
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ─── Penguin Computing brand tokens ─────────────────────────────────────── */
+/* ─── Penguin Computing + VDURA brand tokens ─────────────────────────────── */
 @theme {
   --color-ink: #121618;            /* deepest background */
   --color-penguin: #242b2e;        /* Penguin Black */
@@ -9,6 +9,9 @@
   --color-yellow: #ffcd30;         /* Penguin Yellow */
   --color-yellow-light: #ffdf7a;
   --color-yellow-dark: #e0b11c;
+  --color-vdura: #e79f23;          /* VDURA Gold (product, logo, Mixed Fleet column) */
+  --color-vdura-light: #f0b94d;
+  --color-vdura-dark: #c4851c;
   --color-ice: #8fd3ff;            /* competitor / cool accent */
   --color-ice-dark: #3aa7e6;
   --color-snow: #f5f6f8;
@@ -20,6 +23,7 @@
 
   --shadow-glow: 0 0 40px rgba(255, 205, 48, 0.35);
   --shadow-glow-lg: 0 0 70px rgba(255, 205, 48, 0.5);
+  --shadow-glow-vdura: 0 0 40px rgba(231, 159, 35, 0.35);
 
   --animate-bob: bob 3s ease-in-out infinite;
   --animate-float: float 6s ease-in-out infinite;

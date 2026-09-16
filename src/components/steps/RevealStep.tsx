@@ -7,13 +7,14 @@ import { Button } from '../ui/Button'
 import { AnimatedNumber } from '../ui/AnimatedNumber'
 import { BomTable } from '../ui/BomTable'
 import { Penguin, type Mood } from '../ui/Penguin'
-import { PoweredBy } from '../ui/Brand'
+import { PoweredBy, VduraLogo } from '../ui/Brand'
+import { WhyMixedFleet } from '../ui/WhyMixedFleet'
 import { accuracyScore, verdict } from '../../lib/scoring'
 import { rankOf, readScores } from '../../lib/leaderboard'
 import { cn, formatMoney, formatNumber } from '../../lib/utils'
 
 const DRUMROLL_MS = 3400
-const SCRAMBLE_WORDS = ['Sizing VPODs…', 'Counting JBODs…', 'Pricing 30TB QLC…', 'Adding partner margin…', 'Carrying the one…', 'Checking with Finance…']
+const SCRAMBLE_WORDS = ['Spinning up VELO directors…', 'Sizing VPODs…', 'Counting JBODs…', 'Pricing 30TB QLC…', 'Adding partner margin…', 'Carrying the one…', 'Checking with Finance…']
 
 type Phase = 'drumroll' | 'savings' | 'gpus' | 'verdict' | 'done'
 
@@ -33,7 +34,9 @@ export function RevealStep() {
   const [phase, setPhase] = useState<Phase>('drumroll')
   const [word, setWord] = useState(0)
   const [count, setCount] = useState(3)
-  const started = useRef(false)
+  // Latest `play` without making it an effect dependency: toggling sound mid-drumroll must not restart it.
+  const playRef = useRef(play)
+  playRef.current = play
 
   const v = useMemo(() => (result ? verdict(guess, result.extraGpus) : null), [result, guess])
   const score = result ? accuracyScore(guess, result.extraGpus) : 0
@@ -43,11 +46,10 @@ export function RevealStep() {
     return { rank: rankOf(saved.id, all), total: all.length }
   }, [saved])
 
-  // Drumroll
+  // Drumroll. Timers are cleared on cleanup and recreated on re-run, so StrictMode's
+  // mount → cleanup → mount in dev cannot strand the screen on the countdown.
   useEffect(() => {
-    if (started.current) return
-    started.current = true
-    play('drumroll', DRUMROLL_MS / 1000)
+    playRef.current('drumroll', DRUMROLL_MS / 1000)
     const words = window.setInterval(() => setWord((w) => (w + 1) % SCRAMBLE_WORDS.length), 550)
     const c1 = window.setTimeout(() => setCount(2), DRUMROLL_MS - 2200)
     const c2 = window.setTimeout(() => setCount(1), DRUMROLL_MS - 1400)
@@ -55,13 +57,13 @@ export function RevealStep() {
     const go = window.setTimeout(() => {
       window.clearInterval(words)
       setPhase('savings')
-      play('reveal')
+      playRef.current('reveal')
     }, DRUMROLL_MS)
     return () => {
       window.clearInterval(words)
       ;[c1, c2, c3, go].forEach(window.clearTimeout)
     }
-  }, [play])
+  }, [])
 
   // Phase chain after drumroll
   useEffect(() => {
@@ -125,7 +127,11 @@ export function RevealStep() {
     <div className="mx-auto flex min-h-full w-full max-w-4xl flex-col px-5 py-8 md:px-8 md:py-10">
       {/* Savings */}
       <motion.div initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 220, damping: 18 }} className="text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-muted">Storage savings, Penguin + VDURA vs. all-flash</p>
+        <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs font-bold uppercase tracking-[0.3em] text-muted">
+          <span>Storage savings with</span>
+          <VduraLogo className="h-4" />
+          <span>Mixed Fleet vs. all-flash</span>
+        </div>
         <p className="mt-2 text-6xl font-black text-yellow tabular md:text-8xl">
           <AnimatedNumber value={savings} from={0} duration={1700} format={formatMoney} />
         </p>
@@ -235,7 +241,8 @@ export function RevealStep() {
                 {formatNumber(result.requirements.gpuCount)} GPUs · {formatNumber(result.requirements.readGBs)} / {formatNumber(result.requirements.writeGBs)} GB/s · {(result.requirements.storageTB / 1000).toFixed(0)} PB usable
               </p>
               <BomTable result={result} />
-              <PoweredBy className="mt-6 text-center" />
+              <WhyMixedFleet result={result} className="mt-8" />
+              <PoweredBy className="mt-8" />
             </motion.section>
           </motion.div>
         )}

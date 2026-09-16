@@ -72,6 +72,7 @@ export function Penguin({ mood = 'idle', className, wave = false }: PenguinProps
         <motion.circle
           r="5"
           fill="#1a1f22"
+          initial={{ cx: 0, cy: 0 }}
           animate={{ cx: pupilX, cy: pupilY, scaleY: mood === 'happy' ? [1, 0.1, 1] : 1 }}
           transition={{ duration: 0.4, repeat: mood === 'happy' ? Infinity : 0, repeatDelay: 2.4 }}
         />
@@ -81,6 +82,7 @@ export function Penguin({ mood = 'idle', className, wave = false }: PenguinProps
         <motion.circle
           r="5"
           fill="#1a1f22"
+          initial={{ cx: 0, cy: 0 }}
           animate={{ cx: pupilX, cy: pupilY, scaleY: mood === 'happy' ? [1, 0.1, 1] : 1 }}
           transition={{ duration: 0.4, repeat: mood === 'happy' ? Infinity : 0, repeatDelay: 2.4 }}
         />

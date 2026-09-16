@@ -4,7 +4,7 @@ import { ArrowLeft, Crown, Download, Play, Trash2 } from 'lucide-react'
 import { useGame } from '../../context/GameContext'
 import { Button } from '../ui/Button'
 import { Penguin } from '../ui/Penguin'
-import { Wordmark } from '../ui/Brand'
+import { CoBrand } from '../ui/Brand'
 import { clearScores, rankScores, readScores, scoresToCsv, type ScoreEntry } from '../../lib/leaderboard'
 import { cn, formatMoney, formatNumber } from '../../lib/utils'
 
@@ -65,7 +65,7 @@ export function LeaderboardStep() {
     <div className="mx-auto flex min-h-full w-full max-w-4xl flex-col px-5 py-8 md:px-8 md:py-10">
       <header className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <Wordmark size="sm" className="mb-3" />
+          <CoBrand size="sm" className="mb-3 justify-start" />
           <h2 className="text-4xl font-black uppercase tracking-tight md:text-6xl">Leaderboard</h2>
           <p className="mt-1 text-muted">
             {scores.length === 0 ? 'Nobody has played yet. Be the first penguin on the ice.' : `${scores.length} ${scores.length === 1 ? 'play' : 'plays'} so far. Perfect guess = 1,250 points.`}
